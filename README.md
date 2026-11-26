@@ -171,7 +171,7 @@
 <pre><code>
 # Clone the repository
 git clone https://github.com/yazanus94-dot/feature-engineering.git
-cd automated-feature-engineering
+cd feature-engineering
 
 # Create and activate virtual environment
 python -m venv autofe_env
@@ -188,22 +188,10 @@ pip install -e .
 python -c "from core import AutomatedFeatureEngine; print('Engine successfully installed!')"
 </code></pre>
 
-<h3>Advanced Installation Options</h3>
+<h3>Development Installation</h3>
 <pre><code>
-# Installation with time series support
-pip install "automated-feature-engineering[timeseries]"
-
-# Installation with text processing capabilities
-pip install "automated-feature-engineering[text]"
-
-# Installation with GPU acceleration
-pip install "automated-feature-engineering[gpu]"
-
-# Full installation with all optional dependencies
-pip install "automated-feature-engineering[all]"
-
 # Development installation with testing tools
-pip install "automated-feature-engineering[dev]"
+pip install -e ".[dev]"
 </code></pre>
 
 <h3>Docker Installation</h3>
@@ -311,51 +299,43 @@ The implemented configuration is defined by `FeatureConfig` in `config/feature_c
 <h2>Folder Structure</h2>
 
 <pre><code>
-automated-feature-engineering/
-├── core/                          # Core engine components
+feature-engineering/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
+├── ATTRIBUTION.md
+├── README.md
+├── main.py
+├── requirements.txt
+├── setup.py
+├── config/
 │   ├── __init__.py
-│   ├── feature_engine.py          # Main orchestrator engine
-│   ├── feature_discoverer.py      # Feature discovery algorithms
-│   ├── feature_optimizer.py       # Feature optimization strategies
-│   └── feature_validator.py       # Validation and quality assurance
-├── config/                        # Configuration management
+│   └── feature_config.py
+├── core/
 │   ├── __init__.py
-│   └── feature_config.py          # Configuration dataclasses
-├── transformers/                  # Feature transformation modules
+│   ├── feature_discoverer.py
+│   ├── feature_engine.py
+│   ├── feature_optimizer.py
+│   └── feature_validator.py
+├── examples/
 │   ├── __init__.py
-│   ├── statistical_transformers.py
+│   ├── advanced_usage.py
+│   └── basic_usage.py
+├── pipelines/
+│   ├── __init__.py
+│   └── feature_pipeline.py
+├── tests/
+│   └── test_feature_engine.py
+├── transformers/
+│   ├── __init__.py
 │   ├── interaction_transformers.py
+│   ├── statistical_transformers.py
 │   ├── temporal_transformers.py
 │   └── text_transformers.py
-├── pipelines/                     # Processing pipelines
-│   ├── __init__.py
-│   └── feature_pipeline.py        # End-to-end feature pipeline
-├── utils/                         # Utility functions
-│   ├── __init__.py
-│   ├── data_utils.py              # Data processing utilities
-│   └── validation_utils.py        # Validation helper functions
-├── examples/                      # Usage examples and tutorials
-│   ├── __init__.py
-│   ├── basic_usage.py             # Basic implementation examples
-│   └── advanced_usage.py          # Advanced usage patterns
-├── tests/                         # Comprehensive test suite
-│   ├── __init__.py
-│   ├── test_feature_engine.py
-│   ├── test_feature_discoverer.py
-│   └── test_integration.py
-├── docs/                          # Documentation
-│   ├── api_reference.md
-│   ├── tutorials.md
-│   └── best_practices.md
-├── data/                          # Sample datasets
-│   ├── sample_regression.csv
-│   ├── sample_classification.csv
-│   └── sample_timeseries.csv
-├── requirements.txt               # Python dependencies
-├── setup.py                       # Package installation script
-├── main.py                        # Command line interface
-└── README.md                      # Project documentation
-</code></pre>
+└── utils/
+    ├── __init__.py
+    ├── data_utils.py
+    └── validation_utils.py
 
 <h2>Results / Experiments / Evaluation</h2>
 
