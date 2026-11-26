@@ -170,7 +170,7 @@
 <h3>Basic Installation</h3>
 <pre><code>
 # Clone the repository
-git clone https://github.com/mwasifanwar/automated-feature-engineering.git
+git clone https://github.com/yazanus94-dot/feature-engineering.git
 cd automated-feature-engineering
 
 # Create and activate virtual environment
@@ -464,31 +464,12 @@ automated-feature-engineering/
 
 <br>
 
-<h2 align="center">✨ Author</h2>
+## Attribution
 
-<p align="center">
-  <b>M Wasif Anwar</b><br>
-  <i>AI/ML Engineer | Effixly AI</i>
-</p>
+This repository is a fork of the original project by M Wasif Anwar:
+https://github.com/mwasifanwar/feature-engineering
 
-<p align="center">
-  <a href="https://www.linkedin.com/in/mwasifanwar" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-blue?style=for-the-badge&logo=linkedin" alt="LinkedIn">
-  </a>
-  <a href="mailto:wasifsdk@gmail.com">
-    <img src="https://img.shields.io/badge/Email-grey?style=for-the-badge&logo=gmail" alt="Email">
-  </a>
-  <a href="https://mwasif.dev" target="_blank">
-    <img src="https://img.shields.io/badge/Website-black?style=for-the-badge&logo=google-chrome" alt="Website">
-  </a>
-  <a href="https://github.com/mwasifanwar" target="_blank">
-    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-  </a>
-</p>
-
-<br>
-
----
+See [ATTRIBUTION.md](ATTRIBUTION.md) for authorship and license notes.
 
 <div align="center">
 

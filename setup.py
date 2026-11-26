@@ -9,18 +9,17 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 setup(
     name="automated-feature-engineering",
     version="1.0.0",
-    author="mwasifanwar",
-    author_email="mwasifanwar@example.com",
+    author="M Wasif Anwar",
     description="Advanced AI system for automated feature engineering and discovery",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/mwasifanwar/automated-feature-engineering",
+    url="https://github.com/yazanus94-dot/feature-engineering",
     packages=find_packages(),
+    py_modules=["main"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
@@ -45,7 +44,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "autofe=autofe.cli:main",
+            "autofe=main:main",
         ],
     },
 )

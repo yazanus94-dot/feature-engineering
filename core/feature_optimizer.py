@@ -60,7 +60,9 @@ class FeatureOptimizer:
             for feature in features:
                 importance_scores[feature] = 0.0
                 
-        max_score = max(importance_scores.values()) if importance_scores else 1.0
+        max_score = max(importance_scores.values()) if importance_scores else 0.0
+        if max_score == 0:
+            max_score = 1.0
         for feature in importance_scores:
             importance_scores[feature] /= max_score
             

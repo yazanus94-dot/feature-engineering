@@ -45,11 +45,16 @@ class AutomatedFeatureEngine(BaseEstimator, TransformerMixin):
     def transform(self, X: pd.DataFrame) -> pd.DataFrame:
         if not self.fitted_:
             raise RuntimeError("Must fit transformer before transforming data")
-        
+
         if self.target_column in X.columns:
             X = X.drop(columns=[self.target_column])
-            
-        return self.feature_pipeline_.transform(X)
+
+        selected_features = self.feature_metadata_.get("selected_features", [])
+        available_features = [feature for feature in selected_features if feature in X.columns]
+        if not available_features:
+            return X.copy()
+
+        return X[available_features].copy()
     
     def fit_transform(self, X: pd.DataFrame, y: Optional[pd.Series] = None) -> pd.DataFrame:
         return self.fit(X, y).transform(X)
