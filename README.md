@@ -185,7 +185,7 @@ pip install -r requirements.txt
 pip install -e .
 
 # Verify installation
-python -c "from autofe.core import AutomatedFeatureEngine; print('Engine successfully installed!')"
+python -c "from core import AutomatedFeatureEngine; print('Engine successfully installed!')"
 </code></pre>
 
 <h3>Advanced Installation Options</h3>
@@ -224,7 +224,7 @@ docker run -p 8888:8888 -v $(pwd)/data:/app/data autofe-engine
 <pre><code>
 import pandas as pd
 import numpy as np
-from autofe.core import AutomatedFeatureEngine
+from core import AutomatedFeatureEngine
 
 # Load your dataset
 data = pd.read_csv('your_dataset.csv')
@@ -234,7 +234,6 @@ target_column = 'price'
 engine = AutomatedFeatureEngine(
     target_column=target_column,
     task_type='regression',  # 'regression', 'classification', or 'auto'
-    optimization_strategy='performance'
 )
 
 # Generate features automatically
@@ -242,17 +241,15 @@ feature_matrix = engine.fit_transform(data)
 
 # Access feature metadata and importance scores
 feature_metadata = engine.get_feature_metadata()
-importance_scores = engine.get_feature_importance()
 
 print(f"Original features: {len(data.columns)}")
-print(f"Generated features: {len(feature_matrix.columns)}")
-print(f"Performance improvement: {feature_metadata['performance_metrics']['improvement']:.4f}")
+print(f"Selected features: {len(feature_matrix.columns)}")
 </code></pre>
 
 <h3>Advanced Configuration Example</h3>
 <pre><code>
-from autofe.core import AutomatedFeatureEngine
-from autofe.config import FeatureConfig
+from core import AutomatedFeatureEngine
+from config import FeatureConfig
 
 # Custom configuration for complex use cases
 config = FeatureConfig(
@@ -274,12 +271,8 @@ engine = AutomatedFeatureEngine(
     config=config.to_dict()
 )
 
-# Execute complete feature engineering pipeline
-feature_pipeline = engine.create_feature_pipeline()
-transformed_data = feature_pipeline.fit_transform(data)
-
-# Export feature engineering report
-engine.export_feature_report('feature_analysis.html')
+# Transform data with the fitted engine
+transformed_data = engine.transform(data)
 </code></pre>
 
 <h3>Command Line Interface</h3>
@@ -287,46 +280,32 @@ engine.export_feature_report('feature_analysis.html')
 # Basic demo execution
 python main.py --mode demo
 
-# Training with custom parameters
-python main.py --mode train --epochs 100 --batch_size 32 --validation_split 0.2
-
-# Process specific dataset
+# Process a CSV dataset
 python main.py --mode process --input data/sales_data.csv --target revenue --output features/engineered_features.csv
 
-# Advanced configuration file usage
-python main.py --config config/advanced_config.json --input data/dataset.csv --target outcome
-
-# Generate feature importance visualization
-python main.py --visualize --input data/dataset.csv --target target_variable --output plots/feature_importance.png
+# Show CLI options
+python main.py --help
 </code></pre>
 
 <h2>Configuration / Parameters</h2>
 
-<h3>Feature Generation Parameters</h3>
-<ul>
-  <li><code>max_features: 500</code> - Maximum number of features to generate and consider</li>
-  <li><code>feature_interactions: True</code> - Enable automatic interaction feature generation</li>
-  <li><code>polynomial_degree: 2</code> - Maximum degree for polynomial feature transformations</li>
-  <li><code>temporal_features: True</code> - Generate time-based features for date/time columns</li>
-  <li><code>text_features: True</code> - Enable natural language processing feature extraction</li>
-  <li><code>categorical_encoding: 'auto'</code> - Automatic selection of categorical encoding strategy</li>
-</ul>
+The implemented configuration is defined by `FeatureConfig` in `config/feature_config.py`.
 
-<h3>Optimization & Selection Parameters</h3>
+<h3>Implemented Configuration Fields</h3>
 <ul>
-  <li><code>feature_selection_method: 'multi_objective'</code> - Feature selection strategy ('mutual_info', 'recursive', 'genetic')</li>
-  <li><code>importance_threshold: 0.01</code> - Minimum feature importance score for retention</li>
-  <li><code>stability_threshold: 0.8</code> - Minimum stability score across data splits</li>
-  <li><code>correlation_threshold: 0.95</code> - Maximum allowed correlation between features</li>
-  <li><code>genetic_population_size: 50</code> - Population size for genetic algorithm optimization</li>
-</ul>
-
-<h3>Validation & Evaluation Parameters</h3>
-<ul>
-  <li><code>cv_folds: 5</code> - Number of cross-validation folds for performance evaluation</li>
-  <li><code>validation_strategy: 'cross_validation'</code> - Validation method ('holdout', 'time_series_split')</li>
-  <li><code>performance_metric: 'auto'</code> - Primary metric for feature evaluation</li>
-  <li><code>significance_level: 0.05</code> - Statistical significance threshold for feature inclusion</li>
+  <li><code>max_features</code> - Maximum number of features to retain</li>
+  <li><code>correlation_threshold</code> - Maximum allowed correlation between features</li>
+  <li><code>importance_threshold</code> - Minimum feature importance score for retention</li>
+  <li><code>stability_threshold</code> - Minimum stability score across data splits</li>
+  <li><code>cv_folds</code> - Number of cross-validation folds</li>
+  <li><code>feature_interactions</code> - Enable interaction feature generation</li>
+  <li><code>polynomial_degree</code> - Polynomial feature degree</li>
+  <li><code>temporal_features</code> - Enable temporal feature generation</li>
+  <li><code>text_features</code> - Enable text feature generation</li>
+  <li><code>categorical_features</code> - Enable categorical feature generation</li>
+  <li><code>feature_selection_method</code> - Feature selection strategy</li>
+  <li><code>validation_strategy</code> - Validation strategy</li>
+  <li><code>optimization_metric</code> - Optimization metric</li>
 </ul>
 
 <h2>Folder Structure</h2>
@@ -380,63 +359,16 @@ automated-feature-engineering/
 
 <h2>Results / Experiments / Evaluation</h2>
 
-<h3>Performance Benchmarks</h3>
-<p>The Automated Feature Engineering Engine has been rigorously evaluated across multiple datasets and domains:</p>
-
-<table>
-  <tr>
-    <th>Dataset</th>
-    <th>Task Type</th>
-    <th>Baseline Performance</th>
-    <th>Engine Performance</th>
-    <th>Improvement</th>
-  </tr>
-  <tr>
-    <td>California Housing</td>
-    <td>Regression</td>
-    <td>0.72 R²</td>
-    <td>0.85 R²</td>
-    <td>+18.1%</td>
-  </tr>
-  <tr>
-    <td>Titanic Survival</td>
-    <td>Classification</td>
-    <td>0.78 AUC</td>
-    <td>0.89 AUC</td>
-    <td>+14.1%</td>
-  </tr>
-  <tr>
-    <td>Retail Sales</td>
-    <td>Time Series</td>
-    <td>0.65 MAPE</td>
-    <td>0.52 MAPE</td>
-    <td>+20.0%</td>
-  </tr>
-  <tr>
-    <td>Customer Churn</td>
-    <td>Classification</td>
-    <td>0.81 F1-Score</td>
-    <td>0.88 F1-Score</td>
-    <td>+8.6%</td>
-  </tr>
-</table>
-
-<h3>Feature Quality Metrics</h3>
+<h3>Implemented and Tested Functionality</h3>
 <ul>
-  <li><strong>Feature Stability</strong>: 92.3% average consistency across cross-validation folds</li>
-  <li><strong>Computational Efficiency</strong>: 3.2x faster feature engineering compared to manual approaches</li>
-  <li><strong>Model Interpretability</strong>: 87% of generated features pass business logic validation</li>
-  <li><strong>Production Readiness</strong>: 94% success rate in deployment scenarios</li>
+  <li>Feature engine initialization and configuration.</li>
+  <li>Statistical, interaction, transformation, temporal, categorical, and text feature discovery names.</li>
+  <li>Feature optimization and validation workflow.</li>
+  <li>Basic synthetic-dataset pipeline execution.</li>
 </ul>
 
-<h3>Scalability Analysis</h3>
-<p>The engine demonstrates excellent scalability characteristics:</p>
-<ul>
-  <li><strong>Dataset Size</strong>: Efficient processing of datasets up to 10 million rows</li>
-  <li><strong>Feature Count</strong>: Support for generation and optimization of up to 10,000 features</li>
-  <li><strong>Memory Usage</strong>: Intelligent memory management with 65% reduction in peak usage</li>
-  <li><strong>Processing Time</strong>: Linear time complexity with respect to dataset size</li>
-</ul>
+<h3>Planned or Aspirational Functionality</h3>
+<p>The README previously described benchmark results, scalability claims, and advanced deployment features that are not verified by the current test suite. Those claims have been removed.</p>
 
 <h2>References / Citations</h2>
 

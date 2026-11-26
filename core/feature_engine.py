@@ -28,7 +28,9 @@ class AutomatedFeatureEngine(BaseEstimator, TransformerMixin):
                                         task_type=task_type)
     
     def fit(self, X: pd.DataFrame, y: Optional[pd.Series] = None):
-        if y is None and self.target_column in X.columns:
+        if y is None:
+            if self.target_column not in X.columns:
+                raise ValueError(f"target_column '{self.target_column}' not found in input data")
             y = X[self.target_column]
             X = X.drop(columns=[self.target_column])
         
