@@ -25,3 +25,7 @@ jobs:
         run: python -c "from core import AutomatedFeatureEngine; print('import ok')"
       - name: CLI smoke test
         run: python main.py --help
+      - name: Gitleaks security scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

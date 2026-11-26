@@ -3,7 +3,7 @@
 <h2>Overview</h2>
 <p>The Automated Feature Engineering Engine is an advanced AI-powered system that automatically discovers, creates, and optimizes features for any dataset. This revolutionary framework eliminates the need for manual feature engineering by leveraging cutting-edge machine learning algorithms, statistical analysis, and domain-aware transformations to generate high-quality features that significantly enhance model performance.</p>
 
-<p>Developed by mwasifanwar, this system represents a paradigm shift in machine learning workflows, enabling data scientists and ML engineers to focus on model architecture and business logic while the engine handles the complex task of feature creation and optimization. The framework is designed to work seamlessly with structured and unstructured data across diverse domains including finance, healthcare, e-commerce, and IoT applications.</p>
+<p>This repository is a modified fork of the original project by M Wasif Anwar. It preserves the original authorship and does not claim independent development of the upstream source code. The framework is designed to work with structured data across diverse domains; advanced claims about unstructured data, GPU acceleration, and production deployment are not verified by the current implementation and tests.</p>
 
 <img width="559" height="469" alt="image" src="https://github.com/user-attachments/assets/fc10d001-7e61-4c19-ba24-b954be411c69" />
 
@@ -175,36 +175,31 @@ cd feature-engineering
 
 # Create and activate virtual environment
 python -m venv autofe_env
-source autofe_env/bin/activate  # On Windows: autofe_env\Scripts\activate
+
+# Windows:
+autofe_env\Scripts\activate
+
+# Linux/macOS:
+source autofe_env/bin/activate
 
 # Install core dependencies
-pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
 # Install the package in development mode
-pip install -e .
+python -m pip install -e .
 
 # Verify installation
-python -c "from core import AutomatedFeatureEngine; print('Engine successfully installed!')"
+python -c "from core import AutomatedFeatureEngine; print('Installation successful')"
 </code></pre>
 
 <h3>Development Installation</h3>
 <pre><code>
 # Development installation with testing tools
-pip install -e ".[dev]"
+python -m pip install -e ".[dev]"
 </code></pre>
 
-<h3>Docker Installation</h3>
-<pre><code>
-# Build the Docker image
-docker build -t autofe-engine .
 
-# Run with GPU support
-docker run --gpus all -p 8888:8888 -v $(pwd)/data:/app/data autofe-engine
-
-# Run with CPU only
-docker run -p 8888:8888 -v $(pwd)/data:/app/data autofe-engine
-</code></pre>
 
 <h2>Usage / Running the Project</h2>
 
@@ -269,7 +264,7 @@ transformed_data = engine.transform(data)
 python main.py --mode demo
 
 # Process a CSV dataset
-python main.py --mode process --input data/sales_data.csv --target revenue --output features/engineered_features.csv
+python main.py --mode process --input input.csv --target target --output output.csv
 
 # Show CLI options
 python main.py --help
